@@ -1,21 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="pushsdk" content="6582362cb2ebcb20b8074cc922d79962">
-  <title>Trending Entertainment 2025</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #f7f7f7; }
-    header { background: #e60073; color: #fff; text-align: center; padding: 20px; }
-    .card { background: #fff; max-width: 600px; margin: 30px auto; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .btn { display: inline-block; background: #e60073; color: #fff; padding: 12px 25px; margin-top: 15px; border-radius: 5px; text-decoration: none; font-weight: bold; }
-    footer { text-align: center; margin: 20px; font-size: 14px; }
-    footer a { color: #333; text-decoration: none; margin: 0 5px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trending Entertainment 2025</title>
+
+<!-- ✅ ProPush verification meta tag -->
+<meta name="pushsdk" content="6582362cb2ebcb20b8074cc922d79962">
+
+<style>
+body {font-family: Arial, sans-serif; background:#fafafa; margin:0; padding:0; text-align:center; color:#333;}
+header {background:#e60073; color:white; padding:20px;}
+.card {background:white; padding:20px; margin:20px auto; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1); max-width:600px;}
+.btn {background:#e60073; color:white; padding:12px 25px; text-decoration:none; border-radius:5px; font-weight:bold; display:inline-block; margin-top:10px;}
+.btn:hover {background:#cc0066;}
+footer {margin-top:30px; padding:15px; background:#eee; font-size:14px;}
+</style>
+
+<script>
+// ✅ Rotation script for multiple links
+const links = [
+  "https://otieu.com/4/9647797",
+  "https://otieu.com/4/9647788",
+  "https://otieu.com/4/9647801"
+];
+function getLink(){
+  const i = Math.floor(Math.random() * links.length);
+  window.location.href = links[i];
+}
+</script>
 </head>
 <body>
-
 <header>
   <h1>🔥 Trending Entertainment 2025</h1>
   <p>Movies, Games & Shows everyone is talking about!</p>
@@ -23,19 +38,16 @@
 
 <div class="card">
   <h2>Top Movies & Games</h2>
-  <img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=600&q=80" alt="Trending Movies" width="100%" style="border-radius: 8px;">
+  <!-- ✅ Working image inside card -->
+  <img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=600&q=80" 
+       alt="Trending Entertainment" width="100%" style="border-radius:8px;">
   <p>Discover the most viral entertainment picks of the year.</p>
-// Rotation script for multiple links
-const links = [
-"https://otieu.com/4/9647797",
-"https://otieu.com/4/9647788",
-"https://otieu.com/4/9647801"
-];
+  <a href="#" onclick="getLink()" class="btn">Explore Now</a>
+</div>
 
 <footer>
-  <a href="#">About Us</a> | <a href="#">Privacy Policy</a>
+  <p><a href="#">About Us</a> | <a href="#">Privacy Policy</a></p>
   <p>© 2025 Entertainment Hub</p>
 </footer>
-
 </body>
 </html>
