@@ -67,7 +67,7 @@ gtag('config', 'G-866F1J34JX', { 'send_page_view': true });
 
 <section class="card" aria-labelledby="h-trend2">
   <h2 id="h-trend2">Most Downloaded Game 🎮</h2>
-  <img class="media" src="https://images.unsplash.com/photo-1617957741648-f77b1c2e41f5?auto=format&fit=crop&w=1200&q=60&fm=webp" alt="Games">
+  <img class="media" src="https://unsplash.com/photos/a-close-up-of-a-controller-on-a-wall-ldJXWA1Ty3c" alt="Games">
   <p class="small">Players worldwide are obsessed with this viral mobile game.</p>
 </section>
 
@@ -169,4 +169,97 @@ document.getElementById('acceptCookies').addEventListener('click',()=>{
   setTimeout(()=>{showPushPrompt();},1200);
 });
 document.getElementById('manageCookies').addEventListener('click',()=>{alert('Cookie preferences: Analytics = ON, Advertising = ON.'); trackEvent('cookies','manage');});
-show
+showCookiePopup();
+
+// Timer
+let sec=30;
+const tEl=document.getElementById('timerText');
+const timerInt=setInterval(()=>{
+  if(sec>0){ sec--; tEl.innerText='Offer expires in 00:'+(sec<10?('0'+sec):sec);}
+  else{ clearInterval(timerInt); tEl.innerText='Offer expired — refresh for new deals'; }
+},1000);
+
+// Bot / engagement filter
+let activityCount=0;
+['mousemove','scroll','touchstart','keydown'].forEach(ev=>window.addEventListener(ev,()=>{activityCount=Math.min(999,activityCount+1);},{passive:true}));
+
+function openSmartLink(){
+  const confirmed=!!sessionStorage.getItem('eh_confirmed');
+  if(!confirmed && activityCount<1){ showVerifyModal(); return; }
+  const url=pickSmartLink();
+  trackEvent('smartlink_open',{url:url});
+  window.location.href=url;
+}
+
+// Verification modal
+const verifyModal=document.getElementById('verifyModal');
+const verifyBtn=document.getElementById('verifyBtn');
+const confirmHuman=document.getElementById('confirmHuman');
+verifyBtn.addEventListener('click',e=>{e.preventDefault(); showVerifyModal();});
+function showVerifyModal(){
+  verifyModal.style.display='flex';
+  verifyModal.setAttribute('aria-hidden','false');
+  trackEvent('verify_shown');
+}
+confirmHuman.addEventListener('click',()=>{
+  sessionStorage.setItem('eh_confirmed','1');
+  trackEvent('verify_confirmed');
+  verifyModal.style.display='none';
+  setTimeout(openSmartLink,400);
+});
+
+// Sticky CTA
+document.getElementById('stickyCta').addEventListener('click',e=>{e.preventDefault(); showVerifyModal();});
+
+// Learn more
+document.getElementById('learnBtn').addEventListener('click',e=>{e.preventDefault(); alert('We show trending entertainment offers and partner promotions. You will be asked to confirm before continuing.'); trackEvent('learn_more');});
+
+// CTA random text
+const ctaOptions=["👉 Unlock Access Now","✅ Verify & Continue","🎬 Watch Free → Continue","Tap to Continue"];
+document.querySelectorAll('.btn').forEach((b,i)=>{ if(i===0) b.innerText=ctaOptions[Math.floor(Math.random()*ctaOptions.length)]; });
+
+// Exit intent
+const exitPopup=document.getElementById('exitPopup');
+let exitShown=false;
+function showExitPopup(){if(exitShown) return; if(localStorage.getItem('eh_exit_shown')) return; exitShown=true; exitPopup.style.display='block'; exitPopup.setAttribute('aria-hidden','false'); localStorage.setItem('eh_exit_shown','1'); trackEvent('exit_popup_shown');}
+document.getElementById('exitClose').addEventListener('click',()=>{exitPopup.style.display='none'; trackEvent('exit_popup_closed');});
+document.getElementById('exitAction').addEventListener('click',()=>{exitPopup.style.display='none'; showVerifyModal(); trackEvent('exit_popup_click');});
+document.addEventListener('mouseout',e=>{if(!e.toElement&&!e.relatedTarget&&e.clientY<20){showExitPopup();}});
+
+// Push prompt
+const pushPrompt=document.getElementById('pushPrompt');
+function showPushPrompt(){
+  if(Notification && Notification.permission==='default' && !localStorage.getItem('eh_push_dismissed')){
+    pushPrompt.style.display='block';
+  }
+}
+document.getElementById('enablePush').addEventListener('click',()=>{
+  Notification.requestPermission().then(permission=>{
+    pushPrompt.style.display='none';
+    localStorage.setItem('eh_push_'+Date.now(),permission);
+    trackEvent('push_permission',{permission});
+    if(permission==='granted'){ alert('Thanks — push enabled (placeholder).'); }
+  });
+});
+document.getElementById('dismissPush').addEventListener('click',()=>{
+  pushPrompt.style.display='none';
+  localStorage.setItem('eh_push_dismissed','1');
+  trackEvent('push_dismissed');
+});
+if(localStorage.getItem(cookieKey)) setTimeout(showPushPrompt,1600);
+
+// Accessibility: escape key to close modals
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    if(verifyModal.style.display==='flex'){verifyModal.style.display='none'; verifyModal.setAttribute('aria-hidden','true');}
+    if(exitPopup.style.display==='block'){exitPopup.style.display='none'; exitPopup.setAttribute('aria-hidden','true');}
+  }
+});
+
+// Initial engagement warmup
+setTimeout(()=>{if(activityCount<1) activityCount=1;},1500);
+})();
+</script>
+
+</body>
+</html>
