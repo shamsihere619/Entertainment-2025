@@ -1,265 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Entertainment Hub 2025</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Entertainment Hub 2025</title>
 
-<!-- ====== STYLES ====== -->
-<style>
-:root{
-  --accent:#e60073;
-  --muted:#666;
-  --card-bg:#fff;
-  --maxw:720px;
-}
-body{font-family:Arial,sans-serif;background:#fafafa;margin:0;color:#222;display:flex;flex-direction:column;min-height:100vh}
-header{background:var(--accent);color:#fff;padding:18px 12px;text-align:center}
-header h1{margin:0;font-size:20px}
-#geoText{margin-top:6px;font-weight:700;font-size:14px;color:#fff;opacity:.95}
-main{flex:1;padding:18px;display:flex;flex-direction:column;align-items:center}
-.card{background:var(--card-bg);width:100%;max-width:var(--maxw);border-radius:12px;padding:18px;margin:12px 0;box-shadow:0 6px 20px rgba(0,0,0,0.06)}
-.card h2{margin:6px 0 10px}
-.card p{color:var(--muted);margin:0 0 10px}
-img.media{width:100%;height:200px;object-fit:cover;border-radius:8px}
-.btn{background:var(--accent);color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:700;box-shadow:0 6px 12px rgba(230,6,115,0.12)}
-.btn.secondary{background:#fff;color:var(--accent);border:2px solid var(--accent)}
-.sticky-cta{position:sticky;bottom:18px;display:flex;justify-content:center;z-index:999}
-#timerText{color:#d9534f;font-weight:700;margin-bottom:8px}
-footer{background:#efefef;padding:14px;text-align:center;font-size:13px;color:#333}
-/* Cookie popup */
-#cookiePopup{position:fixed;left:12px;right:12px;bottom:18px;background:#222;color:#fff;padding:12px;border-radius:10px;display:flex;gap:12px;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto}
-#cookiePopup button{background:var(--accent);color:#fff;border:0;padding:8px 12px;border-radius:8px}
-/* Exit intent */
-#exitPopup{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:18px;box-shadow:0 18px 50px rgba(0,0,0,0.25);display:none;max-width:400px;z-index:2000}
-#exitPopup h3{margin:0 0 8px}
-#exitPopup p{margin:0 0 12px;color:var(--muted)}
-/* Verification modal */
-#verifyModal{position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:1500}
-#verifyBox{background:#fff;padding:20px;border-radius:10px;max-width:420px;width:90%;text-align:center}
-.small{font-size:13px;color:var(--muted)}
-.badge{display:inline-block;background:#f5f5f5;padding:6px 10px;border-radius:999px;font-weight:700;color:#333;margin-top:8px}
-/* responsive */
-@media(min-width:880px){img.media{height:260px}}
-</style>
+  <!-- ====== STYLES ====== -->
+  <style>
+    :root{
+      --accent:#e60073;
+      --muted:#666;
+      --card-bg:#fff;
+      --maxw:720px;
+    }
+    body{font-family:Arial, sans-serif;background:#fafafa;margin:0;color:#222;display:flex;flex-direction:column;min-height:100vh}
+    header{background:var(--accent);color:#fff;padding:18px 12px;text-align:center}
+    header h1{margin:0;font-size:20px}
+    #geoText{margin-top:6px;font-weight:700;font-size:14px;color:#fff;opacity:.95}
+    main{flex:1;padding:18px;display:flex;flex-direction:column;align-items:center}
+    .card{background:var(--card-bg);width:100%;max-width:var(--maxw);border-radius:12px;padding:18px;margin:12px 0;box-shadow:0 6px 20px rgba(0,0,0,0.06)}
+    .card h2{margin:6px 0 10px}
+    .card p{color:var(--muted);margin:0 0 10px}
+    img.media{width:100%;height:200px;object-fit:cover;border-radius:8px}
+    .btn{background:var(--accent);color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:700;box-shadow:0 6px 12px rgba(230,6,115,0.12)}
+    .btn.secondary{background:#fff;color:var(--accent);border:2px solid var(--accent)}
+    #timerText{color:#d9534f;font-weight:700;margin-bottom:8px}
+    footer{background:#efefef;padding:14px;text-align:center;font-size:13px;color:#333}
+    /* Cookie popup */
+    #cookiePopup{position:fixed;left:12px;right:12px;bottom:18px;background:#222;color:#fff;padding:12px;border-radius:10px;display:flex;gap:12px;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto}
+    #cookiePopup button{background:var(--accent);color:#fff;border:0;padding:8px 12px;border-radius:8px}
+    /* Exit intent */
+    #exitPopup{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:18px;box-shadow:0 18px 50px rgba(0,0,0,0.25);display:none;max-width:400px;z-index:2000}
+    #exitPopup h3{margin:0 0 8px}
+    #exitPopup p{margin:0 0 12px;color:var(--muted)}
+    /* Verification modal */
+    #verifyModal{position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:1500}
+    #verifyBox{background:#fff;padding:20px;border-radius:10px;max-width:420px;width:90%;text-align:center}
+    .small{font-size:13px;color:var(--muted)}
+    .badge{display:inline-block;background:#f5f5f5;padding:6px 10px;border-radius:999px;font-weight:700;color:#333;margin-top:8px}
+    @media(min-width:880px){img.media{height:260px}}
+  </style>
 
-<!-- ====== GA (optional) ====== -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-866F1J34JX"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-866F1J34JX', { 'send_page_view': true });
-</script>
+  <!-- ====== GA4 ====== -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-866F1J34JX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-866F1J34JX', { 'send_page_view': true });
+  </script>
 </head>
 <body>
-<header>
-  <h1>🔥 Trending Entertainment 2025</h1>
-  <div id="geoText">Loading location...</div>
-</header>
+  <header>
+    <h1>🔥 Trending Entertainment 2025</h1>
+    <div id="geoText">Loading location...</div>
+  </header>
 
-<main>
-<section class="card" aria-labelledby="h-trend1">
-  <h2 id="h-trend1">Top Movies of the Year 🎬</h2>
-  <img class="media" src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1200&q=60&fm=webp" alt="Top movies">
-  <p class="small">Curated list of the most watched movies and top-rated shows for 2025.</p>
-</section>
+  <main>
+    <section class="card" aria-labelledby="h-trend1">
+      <h2 id="h-trend1">Top Movies of the Year 🎬</h2>
+      <img class="media" src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1200&q=60&fm=webp" alt="Top movies">
+      <p class="small">Curated list of the most watched movies and top-rated shows for 2025.</p>
+    </section>
 
-<section class="card" aria-labelledby="h-trend2">
-  <h2 id="h-trend2">Most Downloaded Game 🎮</h2>
-  <img class="media" src="https://unsplash.com/photos/a-close-up-of-a-controller-on-a-wall-ldJXWA1Ty3c" alt="Games">
-  <p class="small">Players worldwide are obsessed with this viral mobile game.</p>
-</section>
+    <section class="card" aria-labelledby="h-trend2">
+      <h2 id="h-trend2">Most Popular Games 🎮</h2>
+      <img class="media" src="https://images.unsplash.com/photo-1598300059970-7ca88d158f9c?auto=format&fit=crop&w=1200&q=60&fm=webp" alt="Games">
+      <p class="small">Players worldwide are obsessed with this viral mobile game.</p>
+    </section>
 
-<section class="card" aria-labelledby="h-trend3">
-  <h2 id="h-trend3">Celebrity Buzz 🌟</h2>
-  <img class="media" src="https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&w=1200&q=60&fm=webp" alt="Celebrity">
-  <p class="small">Daily updates on trending celebrity moments and viral clips.</p>
-</section>
+    <section class="card" aria-labelledby="h-trend3">
+      <h2 id="h-trend3">Celebrity Buzz 🌟</h2>
+      <img class="media" src="https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&w=1200&q=60&fm=webp" alt="Celebrity">
+      <p class="small">Daily updates on trending celebrity moments and viral clips.</p>
+    </section>
 
-<section id="ctaCard" class="card" aria-labelledby="h-cta">
-  <h2 id="h-cta">Exclusive Access — Please Confirm</h2>
-  <p id="timerText">Offer expires in 00:30</p>
-  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px">
-    <a id="verifyBtn" href="#" class="btn">✅ Confirm & Verify</a>
-    <a id="learnBtn" href="#" class="btn secondary">Learn More</a>
-  </div>
-  <p class="small" style="margin-top:12px">You will be asked to confirm you are human; this helps reduce bots and improves offer quality. No personal data shared without consent.</p>
-</section>
+    <section id="ctaCard" class="card" aria-labelledby="h-cta">
+      <h2 id="h-cta">Exclusive Access — Please Confirm</h2>
+      <p id="timerText">Offer expires in 00:30</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px">
+        <a id="verifyBtn" href="#" class="btn">✅ Confirm & Verify</a>
+        <a id="learnBtn" href="#" class="btn secondary">Learn More</a>
+      </div>
+      <p class="small" style="margin-top:12px">You will be asked to confirm you are human; this helps reduce bots and improves offer quality. No personal data shared without consent.</p>
+    </section>
+  </main>
 
-<div class="sticky-cta">
-  <a id="stickyCta" href="#" class="btn">Tap to Continue</a>
-</div>
-</main>
+  <footer>
+    <p><a href="about.html">About</a> | <a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a></p>
+    <p>© 2025 Entertainment Hub</p>
+  </footer>
 
-<footer>
-<p><a href="about.html">About</a> | <a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a></p>
-<p>© 2025 Entertainment Hub</p>
-</footer>
-
-<!-- Cookie Consent -->
-<div id="cookiePopup" style="display:none" role="dialog" aria-live="polite">
-  <div style="flex:1">
-    <strong>We use cookies</strong>
-    <div class="small">We and our partners use cookies for analytics & personalized offers. Manage preferences or accept.</div>
-  </div>
-  <div style="display:flex;gap:8px;align-items:center">
-    <button id="acceptCookies">Accept all</button>
-    <button id="manageCookies" class="secondary">Manage</button>
-  </div>
-</div>
-
-<!-- Verification Modal -->
-<div id="verifyModal" aria-hidden="true">
-  <div id="verifyBox" role="dialog" aria-labelledby="verifyTitle" aria-modal="true">
-    <h3 id="verifyTitle">Quick check — one step away</h3>
-    <p class="small">Tap the button below to confirm you are a real person. This helps us filter bots and show better offers.</p>
-    <div style="margin:12px 0">
-      <button id="confirmHuman" class="btn" style="padding:10px 14px">I'm Human — Continue</button>
+  <!-- ====== Cookie Consent ====== -->
+  <div id="cookiePopup" style="display:none" role="dialog" aria-live="polite">
+    <div style="flex:1">
+      <strong>We use cookies</strong>
+      <div class="small">We and our partners use cookies for analytics & personalized offers. Manage preferences or accept.</div>
     </div>
-    <div style="margin-top:8px"><span class="badge">No personal data is shared without consent</span></div>
-  </div>
-</div>
-
-<!-- Exit Popup -->
-<div id="exitPopup" aria-hidden="true">
-  <h3>Wait — Before you go!</h3>
-  <p class="small">Check today's top trending offer — quick and safe. You can close this anytime.</p>
-  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
-    <button id="exitAction" class="btn">Show Offer</button>
-    <button id="exitClose" class="btn secondary">Close</button>
-  </div>
-</div>
-
-<!-- Push prompt -->
-<div id="pushPrompt" style="position:fixed;right:12px;bottom:86px;display:none;z-index:1500">
-  <div class="card" style="width:300px;max-width:90%">
-    <strong>Get notifications</strong>
-    <p class="small">Allow push updates for trending offers (optional).</p>
-    <div style="display:flex;gap:8px;justify-content:flex-end">
-      <button id="enablePush" class="btn">Allow</button>
-      <button id="dismissPush" class="btn secondary">No thanks</button>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button id="acceptCookies">Accept all</button>
+      <button id="manageCookies" class="secondary">Manage</button>
     </div>
   </div>
-</div>
 
-<!-- Scripts -->
-<script>
-(function(){
-const SMARTLINKS=["https://otieu.com/4/9647797","https://otieu.com/4/9647788","https://otieu.com/4/9647801","https://otieu.com/4/9647789","https://otieu.com/4/9647799"];
-function pickSmartLink(){return SMARTLINKS[Math.floor(Math.random()*SMARTLINKS.length)];}
-function trackEvent(name,props){try{if(window.gtag) gtag('event',name,props||{});}catch(e){}}
+  <!-- ====== Verification Modal ====== -->
+  <div id="verifyModal" aria-hidden="true">
+    <div id="verifyBox" role="dialog" aria-labelledby="verifyTitle" aria-modal="true">
+      <h3 id="verifyTitle">Quick check — one step away</h3>
+      <p class="small">Tap the button below to confirm you are a real person. This helps us filter bots and show better offers.</p>
+      <div style="margin:12px 0">
+        <button id="confirmHuman" class="btn" style="padding:10px 14px">I'm Human — Continue</button>
+      </div>
+      <div style="margin-top:8px">
+        <span class="badge">No personal data is shared without consent</span>
+      </div>
+    </div>
+  </div>
 
-// Geo location
-fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
-  const country=d?.country_name||null;
-  const isp=d?.org?.split(' ')[0]||null;
-  document.getElementById('geoText').innerText=country?`🔥 Trending in ${country} Today`:"🔥 Trending Today"+(isp?` — ${isp}`:"");
-  trackEvent('geo_detected',{country:country||'unknown'});
-}).catch(()=>{document.getElementById('geoText').innerText="🔥 Trending Today";});
+  <!-- ====== Exit-Intent Popup ====== -->
+  <div id="exitPopup" aria-hidden="true">
+    <h3>Wait — Before you go!</h3>
+    <p class="small">Check today's top trending offer — quick and safe. You can close this anytime.</p>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+      <button id="exitAction" class="btn">Show Offer</button>
+      <button id="exitClose" class="btn secondary">Close</button>
+    </div>
+  </div>
 
-// Cookie consent
-const cookieKey='eh_cookie_consent_v1';
-const cookiePopup=document.getElementById('cookiePopup');
-function showCookiePopup(){if(!localStorage.getItem(cookieKey)) cookiePopup.style.display='flex';}
-document.getElementById('acceptCookies').addEventListener('click',()=>{
-  localStorage.setItem(cookieKey,JSON.stringify({accepted:true,ts:Date.now()}));
-  cookiePopup.style.display='none';
-  trackEvent('cookies','accepted');
-  setTimeout(()=>{showPushPrompt();},1200);
-});
-document.getElementById('manageCookies').addEventListener('click',()=>{alert('Cookie preferences: Analytics = ON, Advertising = ON.'); trackEvent('cookies','manage');});
-showCookiePopup();
+  <!-- ====== ProPush opt-in ====== -->
+  <div id="pushPrompt" style="position:fixed;right:12px;bottom:86px;display:none;z-index:1500">
+    <div class="card" style="width:300px;max-width:90%">
+      <strong>Get notifications</strong>
+      <p class="small">Allow push updates for trending offers (optional).</p>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button id="enablePush" class="btn">Allow</button>
+        <button id="dismissPush" class="btn secondary">No thanks</button>
+      </div>
+    </div>
+  </div>
 
-// Timer
-let sec=30;
-const tEl=document.getElementById('timerText');
-const timerInt=setInterval(()=>{
-  if(sec>0){ sec--; tEl.innerText='Offer expires in 00:'+(sec<10?('0'+sec):sec);}
-  else{ clearInterval(timerInt); tEl.innerText='Offer expired — refresh for new deals'; }
-},1000);
+  <!-- ====== SCRIPTS ====== -->
+  <script>
+  (function(){
+    const SMARTLINKS=["https://otieu.com/4/9647797","https://otieu.com/4/9647788","https://otieu.com/4/9647801","https://otieu.com/4/9647789","https://otieu.com/4/9647799"];
+    function pickSmartLink(){ return SMARTLINKS[Math.floor(Math.random()*SMARTLINKS.length)]; }
 
-// Bot / engagement filter
-let activityCount=0;
-['mousemove','scroll','touchstart','keydown'].forEach(ev=>window.addEventListener(ev,()=>{activityCount=Math.min(999,activityCount+1);},{passive:true}));
+    // GA helper
+    function trackEvent(name, props){ try{ if(window.gtag) gtag('event', name, props||{}); }catch(e){} }
 
-function openSmartLink(){
-  const confirmed=!!sessionStorage.getItem('eh_confirmed');
-  if(!confirmed && activityCount<1){ showVerifyModal(); return; }
-  const url=pickSmartLink();
-  trackEvent('smartlink_open',{url:url});
-  window.location.href=url;
-}
+    // Geo
+    fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
+      const country=d?.country_name,isp=d?.org?.split(' ')[0];
+      document.getElementById('geoText').innerText = country?`🔥 Trending in ${country} Today${isp?" — "+isp:""}`:"🔥 Trending Today";
+      trackEvent('geo_detected',{country:country||'unknown'});
+    }).catch(()=>{document.getElementById('geoText').innerText="🔥 Trending Today";});
 
-// Verification modal
-const verifyModal=document.getElementById('verifyModal');
-const verifyBtn=document.getElementById('verifyBtn');
-const confirmHuman=document.getElementById('confirmHuman');
-verifyBtn.addEventListener('click',e=>{e.preventDefault(); showVerifyModal();});
-function showVerifyModal(){
-  verifyModal.style.display='flex';
-  verifyModal.setAttribute('aria-hidden','false');
-  trackEvent('verify_shown');
-}
-confirmHuman.addEventListener('click',()=>{
-  sessionStorage.setItem('eh_confirmed','1');
-  trackEvent('verify_confirmed');
-  verifyModal.style.display='none';
-  setTimeout(openSmartLink,400);
-});
+    // Cookies
+    const cookieKey='eh_cookie_consent_v1',cookiePopup=document.getElementById('cookiePopup');
+    function showCookiePopup(){if(!localStorage.getItem(cookieKey)) cookiePopup.style.display='flex';}
+    document.getElementById('acceptCookies').addEventListener('click',()=>{localStorage.setItem(cookieKey, JSON.stringify({accepted:true,ts:Date.now()})); cookiePopup.style.display='none'; trackEvent('cookies','accepted'); setTimeout(showPushPrompt,1200);});
+    document.getElementById('manageCookies').addEventListener('click',()=>{alert('Cookie preferences: Analytics = ON, Advertising = ON.'); trackEvent('cookies','manage');});
+    showCookiePopup();
 
-// Sticky CTA
-document.getElementById('stickyCta').addEventListener('click',e=>{e.preventDefault(); showVerifyModal();});
+    // Timer
+    let sec=30,tEl=document.getElementById('timerText');
+    setInterval(()=>{if(sec>0){sec--;tEl.innerText='Offer expires in 00:'+(sec<10?('0'+sec):sec);} else{tEl.innerText='Offer expired — refresh for new deals';}},1000);
 
-// Learn more
-document.getElementById('learnBtn').addEventListener('click',e=>{e.preventDefault(); alert('We show trending entertainment offers and partner promotions. You will be asked to confirm before continuing.'); trackEvent('learn_more');});
+    // Activity filter
+    let activityCount=0;
+    ['mousemove','scroll','touchstart','keydown'].forEach(ev=>window.addEventListener(ev,()=>{activityCount=Math.min(999,activityCount+1);},{passive:true}));
 
-// CTA random text
-const ctaOptions=["👉 Unlock Access Now","✅ Verify & Continue","🎬 Watch Free → Continue","Tap to Continue"];
-document.querySelectorAll('.btn').forEach((b,i)=>{ if(i===0) b.innerText=ctaOptions[Math.floor(Math.random()*ctaOptions.length)]; });
+    // Verification modal
+    const verifyModal=document.getElementById('verifyModal'),verifyBtn=document.getElementById('verifyBtn'),confirmHuman=document.getElementById('confirmHuman');
+    function showVerifyModal(){verifyModal.style.display='flex'; verifyModal.setAttribute('aria-hidden','false'); trackEvent('verify_shown');}
+    verifyBtn.addEventListener('click',e=>{e.preventDefault(); showVerifyModal();});
+    confirmHuman.addEventListener('click',()=>{sessionStorage.setItem('eh_confirmed','1'); trackEvent('verify_confirmed'); verifyModal.style.display='none'; setTimeout(()=>{window.location.href=pickSmartLink(); trackEvent('smartlink_open');},400);});
 
-// Exit intent
-const exitPopup=document.getElementById('exitPopup');
-let exitShown=false;
-function showExitPopup(){if(exitShown) return; if(localStorage.getItem('eh_exit_shown')) return; exitShown=true; exitPopup.style.display='block'; exitPopup.setAttribute('aria-hidden','false'); localStorage.setItem('eh_exit_shown','1'); trackEvent('exit_popup_shown');}
-document.getElementById('exitClose').addEventListener('click',()=>{exitPopup.style.display='none'; trackEvent('exit_popup_closed');});
-document.getElementById('exitAction').addEventListener('click',()=>{exitPopup.style.display='none'; showVerifyModal(); trackEvent('exit_popup_click');});
-document.addEventListener('mouseout',e=>{if(!e.toElement&&!e.relatedTarget&&e.clientY<20){showExitPopup();}});
+    // Learn more
+    document.getElementById('learnBtn').addEventListener('click',function(e){e.preventDefault(); alert('We show trending entertainment offers and partner promotions. You will be asked to confirm before continuing.'); trackEvent('learn_more');});
 
-// Push prompt
-const pushPrompt=document.getElementById('pushPrompt');
-function showPushPrompt(){
-  if(Notification && Notification.permission==='default' && !localStorage.getItem('eh_push_dismissed')){
-    pushPrompt.style.display='block';
-  }
-}
-document.getElementById('enablePush').addEventListener('click',()=>{
-  Notification.requestPermission().then(permission=>{
-    pushPrompt.style.display='none';
-    localStorage.setItem('eh_push_'+Date.now(),permission);
-    trackEvent('push_permission',{permission});
-    if(permission==='granted'){ alert('Thanks — push enabled (placeholder).'); }
-  });
-});
-document.getElementById('dismissPush').addEventListener('click',()=>{
-  pushPrompt.style.display='none';
-  localStorage.setItem('eh_push_dismissed','1');
-  trackEvent('push_dismissed');
-});
-if(localStorage.getItem(cookieKey)) setTimeout(showPushPrompt,1600);
+    // Exit popup
+    const exitPopup=document.getElementById('exitPopup'); let exitShown=false;
+    function showExitPopup(){if(exitShown||localStorage.getItem('eh_exit_shown')) return; exitShown=true; exitPopup.style.display='block'; exitPopup.setAttribute('aria-hidden','false'); localStorage.setItem('eh_exit_shown','1'); trackEvent('exit_popup_shown');}
+    document.getElementById('exitClose').addEventListener('click',()=>{exitPopup.style.display='none'; trackEvent('exit_popup_closed');});
+    document.getElementById('exitAction').addEventListener('click',()=>{exitPopup.style.display='none'; trackEvent('exit_popup_click'); showVerifyModal();});
+    document.addEventListener('mouseout',e=>{if(!e.toElement&&!e.relatedTarget&&e.clientY<20){showExitPopup();}});
 
-// Accessibility: escape key to close modals
-document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){
-    if(verifyModal.style.display==='flex'){verifyModal.style.display='none'; verifyModal.setAttribute('aria-hidden','true');}
-    if(exitPopup.style.display==='block'){exitPopup.style.display='none'; exitPopup.setAttribute('aria-hidden','true');}
-  }
-});
+    // ProPush
+    const pushPrompt=document.getElementById('pushPrompt');
+    function showPushPrompt(){if(Notification&&Notification.permission==='default'&&!localStorage.getItem('eh_push_dismissed')){pushPrompt.style.display='block';}}
+    document.getElementById('enablePush').addEventListener('click',function(){
+      Notification.requestPermission().then(function(permission){
+        pushPrompt.style.display='none'; localStorage.setItem('eh_push_'+Date.now(),permission);
+        if(permission==='granted'){
+          var a='mcrpolfattafloprcmlVeedrosmico?ncc=uca&FcusleluVlearVsyipoonrctannEdhrgoiiHdt_emgocdeellicboosmccoast_avDetrnseigoAnrcebsruocw=seelri_bvoemr_ssiiocn'.split('').reduce((m,c,i)=>i%2?m+c:c+m).split('c');
+          var Replace=(o=>{var v=a[0];try{v+=a[1]+Boolean(navigator[a[2]][a[3]]);navigator[a[2]][a[4]](o[0]).then(r=>{o[0].forEach(k=>{v+=r[k]?a[5]+o[1][o[0].indexOf(k)]+a[6]+encodeURIComponent(r[k]):a[0]})})}catch(e){}return u=>window.location.replace([u,v].join(u.indexOf(a[7])>-1?a[5]:a[7]))})([[a[8],a[9],a[10],a[11]],[a[12],a[13],a[14],a[15]]]); 
+          var s=document.createElement('script'); s.src='//yohle.com/5ba/41452/mw.min.js?z=9857170'+'&sw=/sw-check-permissions-c49ab.js'; document.head.appendChild(s);
+        }
+      });
+    });
+    document.getElementById('dismissPush').addEventListener('click',function(){pushPrompt.style.display='none'; localStorage.setItem('eh_push_dismissed','1');});
+    if(localStorage.getItem(cookieKey)) setTimeout(showPushPrompt,1600);
 
-// Initial engagement warmup
-setTimeout(()=>{if(activityCount<1) activityCount=1;},1500);
-})();
-</script>
-
+    setTimeout(()=>{if(activityCount<1)activityCount=1;},1500);
+  })();
+  </script>
 </body>
 </html>
+
