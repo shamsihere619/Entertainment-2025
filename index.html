@@ -1,122 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Entertainment Hub 2025</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entertainment Hub 2025</title>
 
-  <style>
-    body {font-family: Arial, sans-serif; background:#fafafa; margin:0; padding:0; text-align:center; color:#333;}
-    header {background:#e60073; color:white; padding:20px;}
-    .card {background:white; padding:20px; margin:20px auto; border-radius:10px; 
-           box-shadow:0 2px 5px rgba(0,0,0,0.1); max-width:600px;}
-    .btn {
-      background:#e60073; color:white; padding:16px 28px; text-decoration:none;
-      border-radius:8px; font-weight:bold; display:inline-block; margin-top:15px;
-      transition:0.3s; font-size:18px; min-height:48px;
-    }
-    .btn:hover {background:#cc0066;}
-    .btn.cta {position:sticky; bottom:20px; z-index:999;}
-    footer {margin-top:30px; padding:15px; background:#eee; font-size:14px;}
-    img {width:100%; max-height:300px; object-fit:cover; border-radius:8px;}
-    /* Modal for verify */
-    .modal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-            background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:2000;}
-    .modal-content {
-      background:white; padding:20px; border-radius:10px; max-width:90%; 
-      text-align:center; animation:pop 0.3s ease;
-    }
-    @keyframes pop {from{transform:scale(0.8);} to{transform:scale(1);}}
-    /* Exit popup */
-    .exit-popup {display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-                 background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:2000;}
-    .exit-content {
-      background:white; padding:20px; border-radius:10px; max-width:90%; 
-      text-align:center; animation:pop 0.3s ease;
-    }
-    .close {cursor:pointer; color:#e60073; font-weight:bold;}
-  </style>
+<!-- ====== STYLES ====== -->
+<style>
+:root{
+  --accent:#e60073;
+  --muted:#666;
+  --card-bg:#fff;
+  --maxw:720px;
+}
+body{font-family:Arial,sans-serif;background:#fafafa;margin:0;color:#222;display:flex;flex-direction:column;min-height:100vh}
+header{background:var(--accent);color:#fff;padding:18px 12px;text-align:center}
+header h1{margin:0;font-size:20px}
+#geoText{margin-top:6px;font-weight:700;font-size:14px;color:#fff;opacity:.95}
+main{flex:1;padding:18px;display:flex;flex-direction:column;align-items:center}
+.card{background:var(--card-bg);width:100%;max-width:var(--maxw);border-radius:12px;padding:18px;margin:12px 0;box-shadow:0 6px 20px rgba(0,0,0,0.06)}
+.card h2{margin:6px 0 10px}
+.card p{color:var(--muted);margin:0 0 10px}
+img.media{width:100%;height:200px;object-fit:cover;border-radius:8px}
+.btn{background:var(--accent);color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:700;box-shadow:0 6px 12px rgba(230,6,115,0.12)}
+.btn.secondary{background:#fff;color:var(--accent);border:2px solid var(--accent)}
+.sticky-cta{position:sticky;bottom:18px;display:flex;justify-content:center;z-index:999}
+#timerText{color:#d9534f;font-weight:700;margin-bottom:8px}
+footer{background:#efefef;padding:14px;text-align:center;font-size:13px;color:#333}
+/* Cookie popup */
+#cookiePopup{position:fixed;left:12px;right:12px;bottom:18px;background:#222;color:#fff;padding:12px;border-radius:10px;display:flex;gap:12px;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto}
+#cookiePopup button{background:var(--accent);color:#fff;border:0;padding:8px 12px;border-radius:8px}
+/* Exit intent */
+#exitPopup{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:18px;box-shadow:0 18px 50px rgba(0,0,0,0.25);display:none;max-width:400px;z-index:2000}
+#exitPopup h3{margin:0 0 8px}
+#exitPopup p{margin:0 0 12px;color:var(--muted)}
+/* Verification modal */
+#verifyModal{position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:1500}
+#verifyBox{background:#fff;padding:20px;border-radius:10px;max-width:420px;width:90%;text-align:center}
+.small{font-size:13px;color:var(--muted)}
+.badge{display:inline-block;background:#f5f5f5;padding:6px 10px;border-radius:999px;font-weight:700;color:#333;margin-top:8px}
+/* responsive */
+@media(min-width:880px){img.media{height:260px}}
+</style>
+
+<!-- ====== GA (optional) ====== -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-866F1J34JX"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-866F1J34JX', { 'send_page_view': true });
+</script>
 </head>
 <body>
-  <header>
-    <h1>🔥 Trending Entertainment 2025</h1>
-    <p>Movies, Games & Shows everyone is talking about!</p>
-  </header>
+<header>
+  <h1>🔥 Trending Entertainment 2025</h1>
+  <div id="geoText">Loading location...</div>
+</header>
 
-  <main>
-    <div class="card">
-      <h2>Top Movies & Games</h2>
-      <img loading="lazy" src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=600&q=80" alt="Trending Entertainment">
-      <p>Discover the most viral entertainment picks of the year.</p>
+<main>
+<section class="card" aria-labelledby="h-trend1">
+  <h2 id="h-trend1">Top Movies of the Year 🎬</h2>
+  <img class="media" src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1200&q=60&fm=webp" alt="Top movies">
+  <p class="small">Curated list of the most watched movies and top-rated shows for 2025.</p>
+</section>
 
-      <!-- CTA Button -->
-      <a href="#" onclick="openVerify()" class="btn cta" id="cta-btn">Tap to Continue</a>
+<section class="card" aria-labelledby="h-trend2">
+  <h2 id="h-trend2">Most Downloaded Game 🎮</h2>
+  <img class="media" src="https://images.unsplash.com/photo-1617957741648-f77b1c2e41f5?auto=format&fit=crop&w=1200&q=60&fm=webp" alt="Games">
+  <p class="small">Players worldwide are obsessed with this viral mobile game.</p>
+</section>
+
+<section class="card" aria-labelledby="h-trend3">
+  <h2 id="h-trend3">Celebrity Buzz 🌟</h2>
+  <img class="media" src="https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&w=1200&q=60&fm=webp" alt="Celebrity">
+  <p class="small">Daily updates on trending celebrity moments and viral clips.</p>
+</section>
+
+<section id="ctaCard" class="card" aria-labelledby="h-cta">
+  <h2 id="h-cta">Exclusive Access — Please Confirm</h2>
+  <p id="timerText">Offer expires in 00:30</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px">
+    <a id="verifyBtn" href="#" class="btn">✅ Confirm & Verify</a>
+    <a id="learnBtn" href="#" class="btn secondary">Learn More</a>
+  </div>
+  <p class="small" style="margin-top:12px">You will be asked to confirm you are human; this helps reduce bots and improves offer quality. No personal data shared without consent.</p>
+</section>
+
+<div class="sticky-cta">
+  <a id="stickyCta" href="#" class="btn">Tap to Continue</a>
+</div>
+</main>
+
+<footer>
+<p><a href="about.html">About</a> | <a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a></p>
+<p>© 2025 Entertainment Hub</p>
+</footer>
+
+<!-- Cookie Consent -->
+<div id="cookiePopup" style="display:none" role="dialog" aria-live="polite">
+  <div style="flex:1">
+    <strong>We use cookies</strong>
+    <div class="small">We and our partners use cookies for analytics & personalized offers. Manage preferences or accept.</div>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button id="acceptCookies">Accept all</button>
+    <button id="manageCookies" class="secondary">Manage</button>
+  </div>
+</div>
+
+<!-- Verification Modal -->
+<div id="verifyModal" aria-hidden="true">
+  <div id="verifyBox" role="dialog" aria-labelledby="verifyTitle" aria-modal="true">
+    <h3 id="verifyTitle">Quick check — one step away</h3>
+    <p class="small">Tap the button below to confirm you are a real person. This helps us filter bots and show better offers.</p>
+    <div style="margin:12px 0">
+      <button id="confirmHuman" class="btn" style="padding:10px 14px">I'm Human — Continue</button>
     </div>
-  </main>
+    <div style="margin-top:8px"><span class="badge">No personal data is shared without consent</span></div>
+  </div>
+</div>
 
-  <footer>
-    <p>
-      <a href="about.html">About Us</a> | 
-      <a href="privacy.html">Privacy Policy</a> | 
-      <a href="terms.html">Terms</a> | 
-      <a href="contact.html">Contact</a>
-    </p>
-    <p>© 2025 Entertainment Hub</p>
-  </footer>
+<!-- Exit Popup -->
+<div id="exitPopup" aria-hidden="true">
+  <h3>Wait — Before you go!</h3>
+  <p class="small">Check today's top trending offer — quick and safe. You can close this anytime.</p>
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+    <button id="exitAction" class="btn">Show Offer</button>
+    <button id="exitClose" class="btn secondary">Close</button>
+  </div>
+</div>
 
-  <!-- ✅ Verify Modal -->
-  <div class="modal" id="verifyModal">
-    <div class="modal-content">
-      <h2>✅ Human Verification</h2>
-      <p>Please confirm to continue to trending offers.</p>
-      <button class="btn" onclick="redirectLink()">I’m Human → Continue</button>
+<!-- Push prompt -->
+<div id="pushPrompt" style="position:fixed;right:12px;bottom:86px;display:none;z-index:1500">
+  <div class="card" style="width:300px;max-width:90%">
+    <strong>Get notifications</strong>
+    <p class="small">Allow push updates for trending offers (optional).</p>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button id="enablePush" class="btn">Allow</button>
+      <button id="dismissPush" class="btn secondary">No thanks</button>
     </div>
   </div>
+</div>
 
-  <!-- ✅ Exit Popup -->
-  <div class="exit-popup" id="exitPopup">
-    <div class="exit-content">
-      <span class="close" onclick="closeExit()">✖</span>
-      <h2>Wait! Don’t miss this 👇</h2>
-      <button class="btn" onclick="redirectLink()">See Today’s Top Offer</button>
-    </div>
-  </div>
+<!-- Scripts -->
+<script>
+(function(){
+const SMARTLINKS=["https://otieu.com/4/9647797","https://otieu.com/4/9647788","https://otieu.com/4/9647801","https://otieu.com/4/9647789","https://otieu.com/4/9647799"];
+function pickSmartLink(){return SMARTLINKS[Math.floor(Math.random()*SMARTLINKS.length)];}
+function trackEvent(name,props){try{if(window.gtag) gtag('event',name,props||{});}catch(e){}}
 
-  <script>
-    // CTA text adjust for mobile
-    if(/Mobi|Android|iPhone/i.test(navigator.userAgent)){
-      document.getElementById("cta-btn").textContent = "Tap to Continue";
-    } else {
-      document.getElementById("cta-btn").textContent = "Click to Continue";
-    }
+// Geo location
+fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
+  const country=d?.country_name||null;
+  const isp=d?.org?.split(' ')[0]||null;
+  document.getElementById('geoText').innerText=country?`🔥 Trending in ${country} Today`:"🔥 Trending Today"+(isp?` — ${isp}`:"");
+  trackEvent('geo_detected',{country:country||'unknown'});
+}).catch(()=>{document.getElementById('geoText').innerText="🔥 Trending Today";});
 
-    // Modal functions
-    function openVerify(){document.getElementById("verifyModal").style.display="flex";}
-    function redirectLink(){
-      const links = [
-        "https://otieu.com/4/9647797",
-        "https://otieu.com/4/9647788",
-        "https://otieu.com/4/9647801",
-        "https://otieu.com/4/9647789",
-        "https://otieu.com/4/9647799"
-      ];
-      const i = Math.floor(Math.random() * links.length);
-      window.location.href = links[i];
-    }
-
-    // Exit intent popup (mobile safe)
-    let exitShown=false;
-    document.addEventListener("mouseout", e=>{
-      if(!exitShown && e.clientY < 50){
-        document.getElementById("exitPopup").style.display="flex";
-        exitShown=true;
-      }
-    });
-    function closeExit(){document.getElementById("exitPopup").style.display="none";}
-  </script>
-</body>
-</html>
-
-
-
-
+// Cookie consent
+const cookieKey='eh_cookie_consent_v1';
+const cookiePopup=document.getElementById('cookiePopup');
+function showCookiePopup(){if(!localStorage.getItem(cookieKey)) cookiePopup.style.display='flex';}
+document.getElementById('acceptCookies').addEventListener('click',()=>{
+  localStorage.setItem(cookieKey,JSON.stringify({accepted:true,ts:Date.now()}));
+  cookiePopup.style.display='none';
+  trackEvent('cookies','accepted');
+  setTimeout(()=>{showPushPrompt();},1200);
+});
+document.getElementById('manageCookies').addEventListener('click',()=>{alert('Cookie preferences: Analytics = ON, Advertising = ON.'); trackEvent('cookies','manage');});
+show
