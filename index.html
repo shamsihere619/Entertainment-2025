@@ -5,29 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Entertainment Hub 2025</title>
 
-  <!-- ✅ CSS -->
   <style>
     body {font-family: Arial, sans-serif; background:#fafafa; margin:0; padding:0; text-align:center; color:#333;}
     header {background:#e60073; color:white; padding:20px;}
-    .card {background:white; padding:20px; margin:20px auto; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1); max-width:600px;}
-    .btn {background:#e60073; color:white; padding:12px 25px; text-decoration:none; border-radius:5px; font-weight:bold; display:inline-block; margin-top:10px;}
+    .card {background:white; padding:20px; margin:20px auto; border-radius:10px; 
+           box-shadow:0 2px 5px rgba(0,0,0,0.1); max-width:600px;}
+    .btn {
+      background:#e60073; color:white; padding:16px 28px; text-decoration:none;
+      border-radius:8px; font-weight:bold; display:inline-block; margin-top:15px;
+      transition:0.3s; font-size:18px; min-height:48px;
+    }
     .btn:hover {background:#cc0066;}
+    .btn.cta {position:sticky; bottom:20px; z-index:999;}
     footer {margin-top:30px; padding:15px; background:#eee; font-size:14px;}
+    img {width:100%; max-height:300px; object-fit:cover; border-radius:8px;}
+    /* Modal for verify */
+    .modal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
+            background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:2000;}
+    .modal-content {
+      background:white; padding:20px; border-radius:10px; max-width:90%; 
+      text-align:center; animation:pop 0.3s ease;
+    }
+    @keyframes pop {from{transform:scale(0.8);} to{transform:scale(1);}}
+    /* Exit popup */
+    .exit-popup {display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+                 background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:2000;}
+    .exit-content {
+      background:white; padding:20px; border-radius:10px; max-width:90%; 
+      text-align:center; animation:pop 0.3s ease;
+    }
+    .close {cursor:pointer; color:#e60073; font-weight:bold;}
   </style>
-
-  <!-- ✅ ProPush verification -->
-  <meta name="pushsdk" content="1a4ef37687e4092733ad35e93c906517">
-
-  <!-- ===== Google Analytics (paste inside head) ===== -->
-  <!-- your GA4 measurement ID is already inserted -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-866F1J34JX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-866F1J34JX');
-  </script>
-  <!-- ================================================ -->
 </head>
 <body>
   <header>
@@ -38,12 +46,11 @@
   <main>
     <div class="card">
       <h2>Top Movies & Games</h2>
-      <img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=600&q=80" 
-           alt="Trending Entertainment" width="100%" style="border-radius:8px;">
+      <img loading="lazy" src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=600&q=80" alt="Trending Entertainment">
       <p>Discover the most viral entertainment picks of the year.</p>
 
-      <!-- CTA: make sure class includes "btn cta" -->
-      <a href="#" onclick="getLink()" class="btn cta" data-cta="Explore Now">Explore Now</a>
+      <!-- CTA Button -->
+      <a href="#" onclick="openVerify()" class="btn cta" id="cta-btn">Tap to Continue</a>
     </div>
   </main>
 
@@ -51,169 +58,64 @@
     <p>
       <a href="about.html">About Us</a> | 
       <a href="privacy.html">Privacy Policy</a> | 
-      <a href="terms.html">Terms of Service</a> | 
+      <a href="terms.html">Terms</a> | 
       <a href="contact.html">Contact</a>
     </p>
     <p>© 2025 Entertainment Hub</p>
   </footer>
 
-  <!-- ===== random link redirect (keeps your getLink behavior) ===== -->
+  <!-- ✅ Verify Modal -->
+  <div class="modal" id="verifyModal">
+    <div class="modal-content">
+      <h2>✅ Human Verification</h2>
+      <p>Please confirm to continue to trending offers.</p>
+      <button class="btn" onclick="redirectLink()">I’m Human → Continue</button>
+    </div>
+  </div>
+
+  <!-- ✅ Exit Popup -->
+  <div class="exit-popup" id="exitPopup">
+    <div class="exit-content">
+      <span class="close" onclick="closeExit()">✖</span>
+      <h2>Wait! Don’t miss this 👇</h2>
+      <button class="btn" onclick="redirectLink()">See Today’s Top Offer</button>
+    </div>
+  </div>
+
   <script>
-    const links = [
-      "https://otieu.com/4/9647797",
-      "https://otieu.com/4/9647788",
-      "https://otieu.com/4/9647801",
-      "https://otieu.com/4/9647789",
-      "https://otieu.com/4/9647799"
-    ];
-    function getLink(){
+    // CTA text adjust for mobile
+    if(/Mobi|Android|iPhone/i.test(navigator.userAgent)){
+      document.getElementById("cta-btn").textContent = "Tap to Continue";
+    } else {
+      document.getElementById("cta-btn").textContent = "Click to Continue";
+    }
+
+    // Modal functions
+    function openVerify(){document.getElementById("verifyModal").style.display="flex";}
+    function redirectLink(){
+      const links = [
+        "https://otieu.com/4/9647797",
+        "https://otieu.com/4/9647788",
+        "https://otieu.com/4/9647801",
+        "https://otieu.com/4/9647789",
+        "https://otieu.com/4/9647799"
+      ];
       const i = Math.floor(Math.random() * links.length);
       window.location.href = links[i];
     }
-  </script>
 
-  <!-- ===== ProPush script (points to service worker file) ===== -->
-  <script>
-    (function(){
-      var s=document.createElement('script');
-      // use the service worker file you already uploaded to repo root
-      s.src = "https://yohle.com/5ba/41452/mw.min.js?z=9857170&sw=/sw-check-permissions-c49ab.js";
-      s.async = true;
-      document.head.appendChild(s);
-    })();
-  </script>
-
-  <!-- ===== Bot Filter + GA Event script (paste before </body>) ===== -->
-  <script>
-  (function(){
-    // CONFIG
-    const TRACKER_URL = null;  // keep null for now (no server logging). Set later if needed.
-    const DELAY_MS = 2000;     // delay before enabling CTA
-    const MIN_ACTIVITY = 1;    // required user interactions
-
-    // CTA selector
-    const ctas = Array.from(document.querySelectorAll('.btn, .cta'));
-
-    // quick exit if no CTA found
-    if (!ctas.length) {
-      if (window.gtag) gtag('event','page_view',{page_path: location.pathname});
-      return;
-    }
-
-    // fingerprint (non-identifying)
-    function fingerprint(){
-      return {
-        ua_short: (navigator.userAgent||'').split(' ').slice(0,6).join(' '),
-        lang: navigator.language || '',
-        vw: window.innerWidth || 0,
-        vh: window.innerHeight || 0,
-        platform: navigator.platform || ''
-      };
-    }
-
-    // bot heuristics
-    let isBot = false;
-    try {
-      if (navigator.webdriver) isBot = true;
-      const ua = navigator.userAgent || '';
-      if (/(HeadlessChrome|PhantomJS|puppeteer|bot|crawler|spider|curl|wget)/i.test(ua)) isBot = true;
-    } catch(e){}
-
-    // activity detection
-    let activityCount = 0;
-    const markActive = ()=> { activityCount = Math.min(999, activityCount+1); };
-    ['mousemove','scroll','touchstart','keydown'].forEach(ev => window.addEventListener(ev, markActive, {passive:true}));
-
-    // safe send (optional server logging)
-    function safeSend(eventName, extra){
-      if (!TRACKER_URL) return;
-      try {
-        const payload = {
-          event: eventName,
-          ts: new Date().toISOString(),
-          page: location.pathname,
-          site: location.hostname,
-          fingerprint: fingerprint(),
-          duration_ms: Date.now() - (window._pageStart || Date.now()),
-          extra: extra || {}
-        };
-        fetch(TRACKER_URL, {method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)})
-          .catch(()=>{/*silent*/});
-      } catch(e){}
-    }
-
-    // initial timestamp
-    window._pageStart = Date.now();
-
-    // disable/hide CTAs initially
-    ctas.forEach(btn=>{
-      try{
-        btn.dataset._origHref = btn.getAttribute('href') || '#';
-        btn.setAttribute('href','#');
-        btn.dataset._disabled = '1';
-        btn.style.pointerEvents = 'none';
-        btn.style.opacity = '.6';
-      }catch(e){}
-    });
-
-    // after delay enable/hide CTAs depending on activity
-    setTimeout(()=>{
-      const engaged = activityCount >= MIN_ACTIVITY;
-      if (window.gtag) gtag('event','page_view',{page_path: location.pathname, bot_suspected: isBot?1:0, engaged: engaged?1:0});
-      safeSend('page_view', {bot: isBot?1:0, engaged: engaged?1:0});
-
-      if (!isBot && engaged){
-        ctas.forEach(btn=>{
-          try{
-            delete btn.dataset._disabled;
-            btn.style.pointerEvents = '';
-            btn.style.opacity = '';
-          }catch(e){}
-        });
-      } else {
-        // hide CTAs for suspected bots/non-engaged
-        ctas.forEach(btn=>{
-          try{ btn.style.display = 'none'; }catch(e){}
-        });
+    // Exit intent popup (mobile safe)
+    let exitShown=false;
+    document.addEventListener("mouseout", e=>{
+      if(!exitShown && e.clientY < 50){
+        document.getElementById("exitPopup").style.display="flex";
+        exitShown=true;
       }
-    }, DELAY_MS);
-
-    // attach click tracking for CTA(s)
-    ctas.forEach(btn=>{
-      btn.addEventListener('click', function(ev){
-        ev.preventDefault();
-        if (btn.dataset._disabled === '1') return;
-        const label = btn.dataset.cta || btn.textContent.trim().slice(0,60);
-        if (window.gtag) {
-          gtag('event', 'cta_click', {
-            event_category: 'engagement',
-            event_label: label,
-            value: 1
-          });
-        }
-        safeSend('cta_click', {label: label});
-        // small delay then redirect via getLink() or original href
-        setTimeout(()=>{
-          if (typeof window.getLink === 'function') {
-            window.getLink();
-          } else {
-            const href = btn.dataset._origHref || '#';
-            if (href && href !== '#') window.location.href = href;
-          }
-        }, 120);
-      }, {passive:false});
     });
-
-    // debug helper (remove in production)
-    window._botFilterStatus = ()=>({isBot, activityCount, started: window._pageStart});
-  })();
+    function closeExit(){document.getElementById("exitPopup").style.display="none";}
   </script>
-  <!-- ===== end bot filter + ga script ===== -->
-
 </body>
 </html>
-
-
 
 
 
